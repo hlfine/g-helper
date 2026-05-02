@@ -800,7 +800,7 @@ namespace GHelper.Input
             }
 
             var tabletRaw = Program.acpi.DeviceGet(AsusACPI.TabletState);
-            var tentState = (tentRaw > 0 && (tabletRaw == AsusACPI.Tablet_Notebook || tabletRaw == AsusACPI.Tablet_Rotated)) ? 0 : tentRaw;
+            var tentState = (tentRaw > 0 && tabletRaw == AsusACPI.Tablet_Notebook) ? 0 : tentRaw;
             Logger.WriteLine($"Tent: {tentState} (raw: {tentRaw}, tablet: {tabletRaw})");
             return tentState;
         }
@@ -887,6 +887,7 @@ namespace GHelper.Input
                         KeyProcess("fnc");
                         return;
                     case 189: // Tablet mode
+                        if (AppConfig.IsPX13()) return;
                         AutoKeyboard();
                         return;
                     case 197: // FN+F2
