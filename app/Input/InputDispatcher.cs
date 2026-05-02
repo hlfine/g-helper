@@ -887,7 +887,6 @@ namespace GHelper.Input
                         KeyProcess("fnc");
                         return;
                     case 189: // Tablet mode
-                        if (AppConfig.IsPX13()) return;
                         AutoKeyboard();
                         return;
                     case 197: // FN+F2
@@ -998,6 +997,7 @@ namespace GHelper.Input
                     return;
                 case 250:
                     // Tent Mode
+                    if (AppConfig.IsPX13()) return;
                     TentMode();
                     return;
             }
