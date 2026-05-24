@@ -10,6 +10,9 @@ namespace GHelper.Helpers
         private static EventWaitHandle? exitEvent;
         private static long lastAdmin;
 
+        public static readonly string PowerShellExe = Path.Combine(
+            Environment.SystemDirectory, "WindowsPowerShell", "v1.0", "powershell.exe");
+
         private static bool? _isSystem;
         public static bool IsRunningAsSystem()
         {
@@ -188,7 +191,7 @@ namespace GHelper.Helpers
             {
                 string script = $"Get-Service -Name \"{serviceName}\" | Stop-Service -Force -PassThru | Set-Service -StartupType {disable}";
                 Logger.WriteLine(script);
-                RunCMD("powershell", script);
+                RunCMD(PowerShellExe, $"-NoProfile -ExecutionPolicy Bypass -Command \"{script}\"");
             }
             catch (Exception ex)
             {
@@ -202,7 +205,7 @@ namespace GHelper.Helpers
             {
                 string script = $"Set-Service -Name \"{serviceName}\" -Status running" + (automatic? " -StartupType Automatic":"");
                 Logger.WriteLine(script);
-                RunCMD("powershell", script);
+                RunCMD(PowerShellExe, $"-NoProfile -ExecutionPolicy Bypass -Command \"{script}\"");
             }
             catch (Exception ex)
             {
