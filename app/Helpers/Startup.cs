@@ -46,11 +46,11 @@ public class Startup
                     string action = task.Definition.Actions.FirstOrDefault()!.ToString().Trim();
                     bool needsReschedule = false;
 
-                    if (!strExeFilePath.Equals(action, StringComparison.OrdinalIgnoreCase))
+                    if (!action.Contains(strExeFilePath, StringComparison.OrdinalIgnoreCase))
                     {
                         if (!File.Exists(action))
                         {
-                            Logger.WriteLine("Startup file doesn't exist: " + action);
+                            Logger.WriteLine("Startup action doesn't reference current EXE: " + action);
                             needsReschedule = true;
                         }
                         else
