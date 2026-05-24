@@ -160,7 +160,8 @@ public class Startup
 
             td.RegistrationInfo.Description = "G-Helper Auto Start";
             td.Triggers.Add(new LogonTrigger { Delay = TimeSpan.FromSeconds(1) });
-            td.Actions.Add(strExeFilePath);
+            td.Actions.Add(ProcessHelper.PowerShellExe,
+                $"-NoProfile -WindowStyle Hidden -Command \"Start-Process '{strExeFilePath}'\"");
 
             td.Principal.LogonType = TaskLogonType.InteractiveToken;
             if (ProcessHelper.IsUserAdministrator())

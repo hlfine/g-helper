@@ -92,6 +92,7 @@ namespace GHelper
             Logger.WriteLine("App launched: " + AppConfig.GetModel() + " :" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + CultureInfo.CurrentUICulture + (ProcessHelper.IsUserAdministrator() ? "." : ""));
 
             settingsForm = new SettingsForm();
+            settingsForm.CreateControl();
             modeControl = new ModeControl();
             gpuControl = new GPUModeControl(settingsForm);
             allyControl = new AllyControl(settingsForm);
@@ -427,8 +428,17 @@ namespace GHelper
                 settingsForm.Left = screen.WorkingArea.Width - 10 - settingsForm.Width;
                 settingsForm.Top = screen.WorkingArea.Height - 10 - settingsForm.Height;
 
-                settingsForm.Show();
-                settingsForm.ShowAll();
+                try
+                {
+                    settingsForm.Show();
+                    settingsForm.ShowAll();
+                }
+                catch (System.ComponentModel.Win32Exception ex)
+                {
+                    Logger.WriteLine($"Settings Show failed: {ex.NativeErrorCode} {ex.Message}");
+                    settingsForm.Hide();
+                    return;
+                }
 
                 settingsForm.Left = screen.WorkingArea.Width - 10 - settingsForm.Width;
 
